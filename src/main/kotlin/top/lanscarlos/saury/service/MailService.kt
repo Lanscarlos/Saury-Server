@@ -4,6 +4,8 @@ package top.lanscarlos.saury.service
  * Saury
  * top.lanscarlos.saury.service
  *
+ * 邮件服务
+ *
  * @author Lanscarlos
  * @since 2023-09-08 00:39
  */

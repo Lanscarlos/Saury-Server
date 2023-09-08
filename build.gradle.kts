@@ -19,9 +19,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // 数据库 MySQL
+    runtimeOnly("mysql:mysql-connector-java:8.0.28")
+
+    // 鉴权 Authorization
+    implementation("cn.dev33:sa-token-spring-boot3-starter:1.34.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    // 测试 Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
