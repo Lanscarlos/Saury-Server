@@ -1,0 +1,18 @@
+
+
+spring:
+
+  # Email
+  mail:
+    host: 'smtp.163.com'
+    port: 25
+    username: 'saury_live@163.com'
+    protocol: 'smtp'
+    default-encoding: 'UTF-8'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
