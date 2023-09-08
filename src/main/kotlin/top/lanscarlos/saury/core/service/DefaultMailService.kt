@@ -2,7 +2,6 @@ package top.lanscarlos.saury.core.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.ClassPathResource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
@@ -26,11 +25,6 @@ class DefaultMailService : MailService {
          * https://c.runoob.com/front-end/854/
          */
         val PATTERN_EMAIL = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$".toRegex()
-
-        /**
-         * 模板插值表达式
-         * */
-        val PATTERN_INTERPOLATION = "\\$\\{\\s*(\\w+)\\s*}".toRegex()
     }
 
     @Value("\${spring.mail.username}")
