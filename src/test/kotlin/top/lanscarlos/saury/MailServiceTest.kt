@@ -3,7 +3,7 @@ package top.lanscarlos.saury
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.mail.javamail.JavaMailSenderImpl
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import top.lanscarlos.saury.service.MailService
 
@@ -18,7 +18,7 @@ import top.lanscarlos.saury.service.MailService
 class MailServiceTest {
 
     @Autowired
-    lateinit var sender: JavaMailSenderImpl
+    lateinit var sender: JavaMailSender
 
     @Test
     fun feasibilityVerification() {
