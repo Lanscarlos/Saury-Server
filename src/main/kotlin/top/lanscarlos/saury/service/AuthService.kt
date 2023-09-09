@@ -27,9 +27,9 @@ interface AuthService {
      * @param email 邮箱
      * @param code 验证码
      *
-     * @return 是否验证成功
+     * @throws IllegalArgumentException 验证码错误
      */
-    fun verifyCode(email: String, code: String): Boolean
+    fun verifyCode(email: String, code: String)
 
     /**
      * 注册用户信息

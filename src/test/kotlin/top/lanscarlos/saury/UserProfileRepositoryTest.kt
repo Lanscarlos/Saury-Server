@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import top.lanscarlos.saury.core.entity.DefaultUserProfile
-import top.lanscarlos.saury.repository.UserRepository
+import top.lanscarlos.saury.repository.UserProfileRepository
 
 /**
  * Saury
@@ -15,10 +15,10 @@ import top.lanscarlos.saury.repository.UserRepository
  * @since 2023-09-08 16:39
  */
 @SpringBootTest
-class UserRepositoryTest {
+class UserProfileRepositoryTest {
 
     @Autowired
-    lateinit var repository: UserRepository
+    lateinit var repository: UserProfileRepository
 
     @Test
     fun testInsert() {

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import top.lanscarlos.saury.core.entity.DefaultUserProfile
 import top.lanscarlos.saury.entity.UserProfile
-import top.lanscarlos.saury.repository.UserRepository
+import top.lanscarlos.saury.repository.UserProfileRepository
 import top.lanscarlos.saury.service.UserProfileService
 import java.lang.IllegalStateException
 
@@ -19,10 +19,10 @@ import java.lang.IllegalStateException
 class DefaultUserProfileService : UserProfileService {
 
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var userProfileRepository: UserProfileRepository
 
     override fun hasUserProfile(email: String): Boolean {
-        return userRepository.existsByEmail(email)
+        return userProfileRepository.existsByEmail(email)
     }
 
     override fun register(email: String, password: String, username: String) {
@@ -35,35 +35,52 @@ class DefaultUserProfileService : UserProfileService {
         profile.username = username
         profile.avatar = "https://avatars.githubusercontent.com/u/32390930?v=4"
         profile.registerTime = System.currentTimeMillis()
-        userRepository.save(profile)
+        userProfileRepository.save(profile)
     }
 
     override fun matches(email: String, password: String): UserProfile? {
-        return userRepository.findByEmailAndPassword(email, password)
+        return userProfileRepository.findByEmailAndPassword(email, password)
     }
 
-    override fun changePassword(email: String, oldPassword: String, newPassword: String) {
-        TODO("Not yet implemented")
+    override fun changePassword(id: Long, oldPassword: String, newPassword: String) {
+        val user = getUserProfileById(id) as? DefaultUserProfile
+            ?: throw IllegalStateException("Unsupported user profile type.")
+
+        if (user.password != oldPassword) {
+            throw IllegalStateException("Incorrect old password.")
+        }
+
+        user.password = newPassword
+        userProfileRepository.save(user)
     }
 
-    override fun changeUsername(email: String, username: String) {
-        TODO("Not yet implemented")
+    override fun changeUsername(id: Long, username: String) {
+        val user = getUserProfileById(id) as? DefaultUserProfile
+            ?: throw IllegalStateException("Unsupported user profile type.")
+
+        user.username = username
+        userProfileRepository.save(user)
     }
 
-    override fun changeAvatar(email: String, avatar: String) {
-        TODO("Not yet implemented")
+    override fun changeAvatar(id: Long, avatar: String) {
+        val user = getUserProfileById(id) as? DefaultUserProfile
+            ?: throw IllegalStateException("Unsupported user profile type.")
+
+        user.avatar = avatar
+        userProfileRepository.save(user)
     }
 
-    override fun getUserProfileById(id: Long): UserProfile? {
-        return userRepository.findById(id).orElse(null)
+    override fun getUserProfileById(id: Long): UserProfile {
+        return userProfileRepository.findById(id)
+            .orElseThrow { IllegalStateException("User by id \"$id\" not exists.") }
     }
 
     override fun getUserProfileByEmail(email: String): UserProfile? {
-        return userRepository.findByEmail(email)
+        return userProfileRepository.findByEmail(email)
     }
 
     override fun getUserProfileByUsername(username: String): UserProfile? {
-        return userRepository.findByUsername(username)
+        return userProfileRepository.findByUsername(username)
     }
 
 }

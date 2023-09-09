@@ -14,7 +14,7 @@ import top.lanscarlos.saury.core.entity.DefaultUserProfile
  * @author Lanscarlos
  * @since 2023-09-08 13:55
  */
-interface UserRepository : JpaRepository<DefaultUserProfile, Long> {
+interface UserProfileRepository : JpaRepository<DefaultUserProfile, Long> {
 
     /**
      * 根据邮箱判断用户是否存在

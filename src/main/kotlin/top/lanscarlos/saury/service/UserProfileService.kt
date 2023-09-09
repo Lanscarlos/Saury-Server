@@ -44,27 +44,27 @@ interface UserProfileService {
     /**
      * 修改密码
      *
-     * @param email 邮箱
+     * @param id 用户唯一标识
      * @param oldPassword 旧密码 (sha256)
      * @param newPassword 新密码 (sha256)
      */
-    fun changePassword(email: String, oldPassword: String, newPassword: String)
+    fun changePassword(id: Long, oldPassword: String, newPassword: String)
 
     /**
      * 修改用户名
      *
-     * @param email 邮箱
+     * @param id 用户唯一标识
      * @param username 用户名
      */
-    fun changeUsername(email: String, username: String)
+    fun changeUsername(id: Long, username: String)
 
     /**
      * 修改头像
      *
-     * @param email 邮箱
+     * @param id 用户唯一标识
      * @param avatar 头像
      */
-    fun changeAvatar(email: String, avatar: String)
+    fun changeAvatar(id: Long, avatar: String)
 
     /**
      * 获取用户信息
@@ -73,7 +73,7 @@ interface UserProfileService {
      *
      * @return 用户信息
      */
-    fun getUserProfileById(id: Long): UserProfile?
+    fun getUserProfileById(id: Long): UserProfile
 
     /**
      * 获取用户信息

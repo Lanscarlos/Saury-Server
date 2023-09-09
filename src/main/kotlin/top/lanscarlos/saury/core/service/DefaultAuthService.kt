@@ -4,7 +4,6 @@ import cn.dev33.satoken.stp.SaTokenInfo
 import cn.dev33.satoken.stp.StpUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import top.lanscarlos.saury.repository.UserRepository
 import top.lanscarlos.saury.service.AuthService
 import top.lanscarlos.saury.service.MailService
 import top.lanscarlos.saury.service.UserProfileService
@@ -37,20 +36,25 @@ class DefaultAuthService : AuthService {
         mailService.sendHtmlMail(email, "Saury Verify Code", "mail-verify-code", "verifyCode" to verifyCode)
     }
 
-    override fun verifyCode(email: String, code: String): Boolean {
-        val (verifyCode, expireTime) = cache[email] ?: return false
-        if (System.currentTimeMillis() > expireTime) {
-            // Code is expired.
-            cache.remove(email)
-            return false
+    override fun verifyCode(email: String, code: String) {
+        val (verifyCode, expireTime) = cache[email] ?: throw IllegalArgumentException("Invalid verify code.")
+        when {
+            System.currentTimeMillis() > expireTime -> {
+                // Code is expired.
+                cache.remove(email)
+                throw IllegalArgumentException("Invalid verify code.")
+            }
+            verifyCode == code -> {
+                cache.remove(email)
+            }
+            else -> {
+                throw IllegalArgumentException("Invalid verify code.")
+            }
         }
-        return verifyCode == code
     }
 
     override fun register(email: String, password: String, username: String, code: String): SaTokenInfo {
-        if (!verifyCode(email, code)) {
-            throw IllegalArgumentException("Invalid verify code.")
-        }
+        verifyCode(email, code)
         userProfileService.register(email, password, username)
         return login(email, password)
     }
