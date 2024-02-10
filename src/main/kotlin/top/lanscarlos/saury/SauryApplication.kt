@@ -11,8 +11,7 @@ import org.springframework.boot.runApplication
  * @since 2023-09-07 18:00
  */
 @SpringBootApplication
-class SauryApplication {
-}
+class SauryApplication
 
 fun main(args: Array<String>) {
     runApplication<SauryApplication>(*args)

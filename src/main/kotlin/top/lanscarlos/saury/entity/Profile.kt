@@ -9,7 +9,7 @@ package top.lanscarlos.saury.entity
  * @author Lanscarlos
  * @since 2023-09-08 13:48
  */
-interface UserProfile {
+interface Profile {
 
     /**
      * 唯一标识 (数据库自增主键)

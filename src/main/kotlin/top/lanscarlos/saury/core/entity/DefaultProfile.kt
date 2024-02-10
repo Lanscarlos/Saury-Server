@@ -1,7 +1,7 @@
 package top.lanscarlos.saury.core.entity
 
 import jakarta.persistence.*
-import top.lanscarlos.saury.entity.UserProfile
+import top.lanscarlos.saury.entity.Profile
 
 /**
  * Saury
@@ -12,7 +12,7 @@ import top.lanscarlos.saury.entity.UserProfile
  */
 @Entity
 @Table(name = "user_profile")
-class DefaultUserProfile : UserProfile {
+class DefaultProfile : Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

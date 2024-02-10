@@ -9,7 +9,7 @@ import cn.dev33.satoken.util.SaResult
  * @author Lanscarlos
  * @since 2023-09-08 00:39
  */
-interface UserProfileController {
+interface ProfileController {
 
     /**
      * 获取用户信息

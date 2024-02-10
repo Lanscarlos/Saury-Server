@@ -1,6 +1,6 @@
 package top.lanscarlos.saury.service
 
-import top.lanscarlos.saury.entity.UserProfile
+import top.lanscarlos.saury.entity.Profile
 
 /**
  * Saury
@@ -11,7 +11,7 @@ import top.lanscarlos.saury.entity.UserProfile
  * @author Lanscarlos
  * @since 2023-09-08 13:30
  */
-interface UserProfileService {
+interface ProfileService {
 
     /**
      * 是否存在用户信息
@@ -39,7 +39,7 @@ interface UserProfileService {
      *
      * @return 匹配成功返回用户信息，失败返回 null
      */
-    fun matches(email: String, password: String): UserProfile?
+    fun matches(email: String, password: String): Profile?
 
     /**
      * 修改密码
@@ -73,7 +73,7 @@ interface UserProfileService {
      *
      * @return 用户信息
      */
-    fun getUserProfileById(id: Long): UserProfile
+    fun getUserProfileById(id: Long): Profile
 
     /**
      * 获取用户信息
@@ -82,7 +82,7 @@ interface UserProfileService {
      *
      * @return 用户信息
      */
-    fun getUserProfileByEmail(email: String): UserProfile?
+    fun getUserProfileByEmail(email: String): Profile?
 
     /**
      * 获取用户信息
@@ -91,5 +91,5 @@ interface UserProfileService {
      *
      * @return 用户信息
      */
-    fun getUserProfileByUsername(username: String): UserProfile?
+    fun getUserProfileByUsername(username: String): Profile?
 }

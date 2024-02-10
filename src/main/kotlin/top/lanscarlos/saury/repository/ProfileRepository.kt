@@ -1,7 +1,7 @@
 package top.lanscarlos.saury.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
-import top.lanscarlos.saury.core.entity.DefaultUserProfile
+import top.lanscarlos.saury.core.entity.DefaultProfile
 
 /**
  * Saury
@@ -14,7 +14,7 @@ import top.lanscarlos.saury.core.entity.DefaultUserProfile
  * @author Lanscarlos
  * @since 2023-09-08 13:55
  */
-interface UserProfileRepository : JpaRepository<DefaultUserProfile, Long> {
+interface ProfileRepository : JpaRepository<DefaultProfile, Long> {
 
     /**
      * 根据邮箱判断用户是否存在
@@ -32,7 +32,7 @@ interface UserProfileRepository : JpaRepository<DefaultUserProfile, Long> {
      *
      * @return 用户信息
      */
-    fun findByEmail(email: String): DefaultUserProfile?
+    fun findByEmail(email: String): DefaultProfile?
 
     /**
      * 根据用户名获取用户信息
@@ -41,7 +41,7 @@ interface UserProfileRepository : JpaRepository<DefaultUserProfile, Long> {
      *
      * @return 用户信息
      */
-    fun findByUsername(username: String): DefaultUserProfile?
+    fun findByUsername(username: String): DefaultProfile?
 
     /**
      * 根据邮箱和密码获取用户信息
@@ -51,6 +51,6 @@ interface UserProfileRepository : JpaRepository<DefaultUserProfile, Long> {
      *
      * @return 用户信息
      */
-    fun findByEmailAndPassword(email: String, password: String): DefaultUserProfile?
+    fun findByEmailAndPassword(email: String, password: String): DefaultProfile?
 
 }
