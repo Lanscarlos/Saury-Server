@@ -1,8 +1,5 @@
 package top.lanscarlos.saury.entity
 
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-
 /**
  * Saury
  * top.lanscarlos.saury.entity

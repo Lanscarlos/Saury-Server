@@ -1,7 +1,6 @@
 package top.lanscarlos.saury.core.entity
 
 import jakarta.persistence.*
-import top.lanscarlos.saury.entity.Note
 import top.lanscarlos.saury.entity.Profile
 
 /**
