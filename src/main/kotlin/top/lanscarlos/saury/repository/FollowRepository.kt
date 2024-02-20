@@ -13,7 +13,7 @@ import top.lanscarlos.saury.core.entity.DefaultUser
  */
 interface FollowRepository : JpaRepository<DefaultFollow, Long> {
 
-    fun findByFollower(follower: DefaultUser): List<DefaultFollow>
+    fun findAllByFollower(follower: DefaultUser): List<DefaultFollow>
 
     /**
      * 获取关注数

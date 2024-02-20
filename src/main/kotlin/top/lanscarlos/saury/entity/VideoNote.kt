@@ -4,6 +4,8 @@ package top.lanscarlos.saury.entity
  * Saury
  * top.lanscarlos.saury.entity
  *
+ * 视频笔记
+ *
  * @author Lanscarlos
  * @since 2024-02-11 00:49
  */

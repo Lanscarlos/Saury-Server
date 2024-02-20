@@ -34,7 +34,7 @@ class FollowRepositoryTest {
     @Test
     fun testFindByFollower() {
         val user = userRepository.getReferenceById(1)
-        val list = repository.findByFollower(user)
+        val list = repository.findAllByFollower(user)
         println("list.size = ${list.size}")
         println("first.id = ${list.firstOrNull()?.id}")
         println("first.following = ${list.firstOrNull()?.following?.id}")
