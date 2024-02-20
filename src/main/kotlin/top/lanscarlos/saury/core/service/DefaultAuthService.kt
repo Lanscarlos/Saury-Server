@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import top.lanscarlos.saury.service.AuthService
 import top.lanscarlos.saury.service.MailService
-import top.lanscarlos.saury.service.ProfileService
+import top.lanscarlos.saury.service.UserService
 
 /**
  * Saury
@@ -22,7 +22,7 @@ class DefaultAuthService : AuthService {
     private lateinit var mailService: MailService
 
     @Autowired
-    private lateinit var profileService: ProfileService
+    private lateinit var userService: UserService
 
     /**
      * email -> (verifyCode, expireTime)
@@ -55,7 +55,7 @@ class DefaultAuthService : AuthService {
 
     override fun register(email: String, password: String, username: String, code: String): SaTokenInfo {
         verifyCode(email, code)
-        profileService.register(email, password, username)
+        userService.register(email, password, username)
         return login(email, password)
     }
 
@@ -63,7 +63,7 @@ class DefaultAuthService : AuthService {
         if (isLogin()) {
             throw IllegalStateException("User \"$email\" Already logged in.")
         }
-        val profile = profileService.matches(email, password) ?: throw IllegalArgumentException("Incorrect email or password.")
+        val profile = userService.matches(email, password) ?: throw IllegalArgumentException("Incorrect email or password.")
         StpUtil.login(profile.id)
         return StpUtil.getTokenInfo()
     }

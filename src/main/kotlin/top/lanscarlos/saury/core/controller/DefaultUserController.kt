@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import top.lanscarlos.saury.controller.ProfileController
+import top.lanscarlos.saury.controller.UserController
 import top.lanscarlos.saury.service.AuthService
-import top.lanscarlos.saury.service.ProfileService
+import top.lanscarlos.saury.service.UserService
 
 /**
  * Saury
@@ -17,20 +17,20 @@ import top.lanscarlos.saury.service.ProfileService
  * @since 2023-09-08 00:38
  */
 @RestController
-@RequestMapping("/user/profile")
-class DefaultProfileController : ProfileController {
+@RequestMapping("/profile")
+class DefaultUserController : UserController {
 
     @Autowired
     private lateinit var authService: AuthService
 
     @Autowired
-    private lateinit var profileService: ProfileService
+    private lateinit var userService: UserService
 
     @RequestMapping("/get")
     override fun getProfile(): SaResult {
         return try {
             val id = authService.getTokenInfo().getLoginId() as Long
-            val user = profileService.getUserProfileById(id)
+            val user = userService.getById(id)
             SaResult.data(user)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
@@ -41,31 +41,9 @@ class DefaultProfileController : ProfileController {
     override fun changePassword(oldPassword: String, newPassword: String, code: String): SaResult {
         return try {
             val id = authService.getTokenInfo().getLoginId() as Long
-            val user = profileService.getUserProfileById(id)
+            val user = userService.getById(id)
             authService.verifyCode(user.email, code)
-            profileService.changePassword(id, oldPassword, newPassword)
-            SaResult.ok()
-        } catch (ex: Exception) {
-            SaResult.error(ex.message)
-        }
-    }
-
-    @RequestMapping("/change/username")
-    override fun changeUsername(username: String): SaResult {
-        return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
-            profileService.changeUsername(id, username)
-            SaResult.ok()
-        } catch (ex: Exception) {
-            SaResult.error(ex.message)
-        }
-    }
-
-    @RequestMapping("/change/avatar")
-    override fun changeAvatar(avatar: String): SaResult {
-        return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
-            profileService.changeAvatar(id, avatar)
+            userService.changePassword(id, oldPassword, newPassword)
             SaResult.ok()
         } catch (ex: Exception) {
             SaResult.error(ex.message)

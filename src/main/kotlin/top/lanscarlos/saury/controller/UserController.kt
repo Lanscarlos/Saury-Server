@@ -9,17 +9,16 @@ import cn.dev33.satoken.util.SaResult
  * @author Lanscarlos
  * @since 2023-09-08 00:39
  */
-interface ProfileController {
+interface UserController {
 
     /**
      * 获取用户信息
      * */
     fun getProfile(): SaResult
 
+    /**
+     * 修改密码
+     * */
     fun changePassword(oldPassword: String, newPassword: String, code: String): SaResult
-
-    fun changeUsername(username: String): SaResult
-
-    fun changeAvatar(avatar: String): SaResult
 
 }

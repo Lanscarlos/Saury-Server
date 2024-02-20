@@ -4,27 +4,18 @@ package top.lanscarlos.saury.entity
  * Saury
  * top.lanscarlos.saury.entity
  *
- * 用户信息
+ * 用户资料
+ * 可以修改
  *
  * @author Lanscarlos
- * @since 2023-09-08 13:48
+ * @since 2024-02-10 22:42
  */
 interface Profile {
 
     /**
-     * 唯一标识 (数据库自增主键)
+     * 唯一标识 必须与 User.id 一致
      */
     val id: Long
-
-    /**
-     * 邮箱
-     */
-    val email: String
-
-    /**
-     * 密码 (sha256)
-     */
-    val password: String
 
     /**
      * 用户名
@@ -32,18 +23,26 @@ interface Profile {
     val username: String
 
     /**
+     * 个性签名
+     */
+    val signature: String
+
+    /**
      * 头像 (url / bitmap base64)
      */
     val avatar: String
 
     /**
-     * 注册时间
+     * 性别
+     * -1 未知
+     * 0 女
+     * 1 男
      */
-    val registerTime: Long
+    val gender: Int
 
     /**
-     * 是否被封禁
+     * 生日
      */
-    val isBanned: Boolean
+    val birthday: Long
 
 }

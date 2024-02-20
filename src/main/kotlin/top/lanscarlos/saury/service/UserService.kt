@@ -1,6 +1,6 @@
 package top.lanscarlos.saury.service
 
-import top.lanscarlos.saury.entity.Profile
+import top.lanscarlos.saury.entity.User
 
 /**
  * Saury
@@ -11,19 +11,19 @@ import top.lanscarlos.saury.entity.Profile
  * @author Lanscarlos
  * @since 2023-09-08 13:30
  */
-interface ProfileService {
+interface UserService {
 
     /**
-     * 是否存在用户信息
+     * 是否存在用户
      *
      * @param email 邮箱
      *
      * @return 是否存在
      */
-    fun hasUserProfile(email: String): Boolean
+    fun exists(email: String): Boolean
 
     /**
-     * 注册用户信息
+     * 注册用户
      *
      * @param email 邮箱
      * @param password 密码 (sha256)
@@ -32,14 +32,14 @@ interface ProfileService {
     fun register(email: String, password: String, username: String)
 
     /**
-     * 匹配用户信息
+     * 匹配用户
      *
      * @param email 邮箱
      * @param password 密码 (sha256)
      *
      * @return 匹配成功返回用户信息，失败返回 null
      */
-    fun matches(email: String, password: String): Profile?
+    fun matches(email: String, password: String): User?
 
     /**
      * 修改密码
@@ -51,29 +51,13 @@ interface ProfileService {
     fun changePassword(id: Long, oldPassword: String, newPassword: String)
 
     /**
-     * 修改用户名
-     *
-     * @param id 用户唯一标识
-     * @param username 用户名
-     */
-    fun changeUsername(id: Long, username: String)
-
-    /**
-     * 修改头像
-     *
-     * @param id 用户唯一标识
-     * @param avatar 头像
-     */
-    fun changeAvatar(id: Long, avatar: String)
-
-    /**
      * 获取用户信息
      *
      * @param id 用户唯一标识
      *
      * @return 用户信息
      */
-    fun getUserProfileById(id: Long): Profile
+    fun getById(id: Long): User
 
     /**
      * 获取用户信息
@@ -82,14 +66,6 @@ interface ProfileService {
      *
      * @return 用户信息
      */
-    fun getUserProfileByEmail(email: String): Profile?
+    fun getByEmail(email: String): User?
 
-    /**
-     * 获取用户信息
-     *
-     * @param username 用户名
-     *
-     * @return 用户信息
-     */
-    fun getUserProfileByUsername(username: String): Profile?
 }

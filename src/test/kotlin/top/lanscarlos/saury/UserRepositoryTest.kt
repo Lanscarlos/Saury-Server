@@ -4,8 +4,8 @@ import cn.dev33.satoken.secure.SaSecureUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import top.lanscarlos.saury.core.entity.DefaultProfile
-import top.lanscarlos.saury.repository.ProfileRepository
+import top.lanscarlos.saury.core.entity.DefaultUser
+import top.lanscarlos.saury.repository.UserRepository
 
 /**
  * Saury
@@ -15,18 +15,16 @@ import top.lanscarlos.saury.repository.ProfileRepository
  * @since 2023-09-08 16:39
  */
 @SpringBootTest
-class ProfileRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
-    lateinit var repository: ProfileRepository
+    lateinit var repository: UserRepository
 
     @Test
     fun testInsert() {
-        val profile = DefaultProfile()
+        val profile = DefaultUser()
         profile.email = "lanscarlos@hotmail.com"
-        profile.username = "Lanscarlos"
         profile.password = SaSecureUtil.sha256("114514")
-        profile.avatar = "https://avatars.githubusercontent.com/u/32390930?v=4"
         profile.registerTime = System.currentTimeMillis()
         profile.isBanned = false
         repository.save(profile)

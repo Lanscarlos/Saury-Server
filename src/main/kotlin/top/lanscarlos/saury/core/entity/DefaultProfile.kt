@@ -1,6 +1,7 @@
 package top.lanscarlos.saury.core.entity
 
 import jakarta.persistence.*
+import top.lanscarlos.saury.entity.Note
 import top.lanscarlos.saury.entity.Profile
 
 /**
@@ -8,30 +9,24 @@ import top.lanscarlos.saury.entity.Profile
  * top.lanscarlos.saury.core.entity
  *
  * @author Lanscarlos
- * @since 2023-09-08 13:53
+ * @since 2024-02-20 11:25
  */
 @Entity
-@Table(name = "user_profile")
+@Table(name = "profile")
 class DefaultProfile : Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override var id: Long = 0
 
-    override lateinit var email: String
+    override val username: String = "用户${System.currentTimeMillis()}"
 
-    override lateinit var password: String
+    override val signature: String = "这个人很懒，什么都没留下"
 
-    override lateinit var username: String
+    override val avatar: String = "https://avatars.githubusercontent.com/u/32390930?v=4"
 
-    override lateinit var avatar: String
+    override val gender: Int = -1
 
-    override var registerTime: Long = 0
-
-    override var isBanned: Boolean = false
-
-    override fun toString(): String {
-        return "DefaultUserProfile(id=$id, email='$email', password='$password', username='$username', avatar='$avatar', registerTime=$registerTime, isBanned=$isBanned)"
-    }
+    override val birthday: Long = -1L
 
 }
