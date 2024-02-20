@@ -31,6 +31,16 @@ class UserRepositoryTest {
     }
 
     @Test
+    fun testInsert2() {
+        val profile = DefaultUser()
+        profile.email = "aiurlanta@hotmail.com"
+        profile.password = SaSecureUtil.sha256("114514")
+        profile.registerTime = System.currentTimeMillis()
+        profile.isBanned = false
+        repository.save(profile)
+    }
+
+    @Test
     fun testSelect() {
         val password = SaSecureUtil.sha256("114514")
         val profile = repository.findByEmailAndPassword("lanscarlos@hotmail.com", password)
