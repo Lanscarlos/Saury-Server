@@ -1,9 +1,7 @@
 package top.lanscarlos.saury.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
-import top.lanscarlos.saury.core.entity.DefaultNote
 import top.lanscarlos.saury.core.entity.DefaultStar
-import top.lanscarlos.saury.core.entity.DefaultUser
 
 /**
  * Saury

@@ -15,14 +15,14 @@ interface ProfileService {
     /**
      * 获取用户资料
      */
-    fun getById(id: Long): Profile
+    fun getById(userId: Long): Profile
 
     /**
      * 修改密码
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      */
-    fun changePassword(id: Long, oldPassword: String, newPassword: String)
+    fun changePassword(userId: Long, oldPassword: String, newPassword: String)
 
     /**
      * 修改资料
@@ -32,38 +32,38 @@ interface ProfileService {
      * @param gender 性别
      * @param birthday 生日
      */
-    fun updateProfile(id: Long, username: String, signature: String, avatar: String, gender: Int, birthday: Long)
+    fun updateProfile(userId: Long, username: String, signature: String, avatar: String, gender: Int, birthday: Long)
 
     /**
      * 获取关注列表
      */
-    fun getFollowings(id: Long): List<User>
+    fun getFollowings(userId: Long): List<User>
 
     /**
      * 获取关注数
      */
-    fun getFollowingsCount(id: Long): Long
+    fun getFollowingsCount(userId: Long): Long
 
     /**
      * 获取粉丝列表
      */
-    fun getFollowers(id: Long): List<User>
+    fun getFollowers(userId: Long): List<User>
 
     /**
      * 获取粉丝数
      */
-    fun getFollowersCount(id: Long): Long
+    fun getFollowersCount(userId: Long): Long
 
     /**
      * 关注
      * @param targetId 目标用户 id
      */
-    fun follow(id: Long, targetId: Long)
+    fun follow(userId: Long, targetId: Long)
 
     /**
      * 取消关注
      * @param targetId 目标用户 id
      */
-    fun unfollow(id: Long, targetId: Long)
+    fun unfollow(userId: Long, targetId: Long)
 
 }

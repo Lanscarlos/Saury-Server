@@ -2,7 +2,6 @@ package top.lanscarlos.saury.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import top.lanscarlos.saury.core.entity.DefaultFollow
-import top.lanscarlos.saury.core.entity.DefaultUser
 
 /**
  * Saury

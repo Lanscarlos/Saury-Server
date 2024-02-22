@@ -32,12 +32,12 @@ class DefaultProfileService : ProfileService {
     @Autowired
     private lateinit var followRepository: FollowRepository
 
-    override fun getById(id: Long): Profile {
-        return profileRepository.findById(id).orElseThrow { IllegalStateException("User by id \"$id\" not exists.") }
+    override fun getById(userId: Long): Profile {
+        return profileRepository.findById(userId).orElseThrow { IllegalStateException("User by id \"$userId\" not exists.") }
     }
 
-    override fun changePassword(id: Long, oldPassword: String, newPassword: String) {
-        val user = getUserById(id)
+    override fun changePassword(userId: Long, oldPassword: String, newPassword: String) {
+        val user = getUserById(userId)
 
         if (user.password != oldPassword) {
             throw IllegalStateException("Incorrect old password.")
@@ -49,14 +49,14 @@ class DefaultProfileService : ProfileService {
 
     @Transactional
     override fun updateProfile(
-        id: Long,
+        userId: Long,
         username: String,
         signature: String,
         avatar: String,
         gender: Int,
         birthday: Long
     ) {
-        val profile = profileRepository.findById(id).orElseThrow { IllegalStateException("User by id \"$id\" not exists.") }
+        val profile = profileRepository.findById(userId).orElseThrow { IllegalStateException("User by id \"$userId\" not exists.") }
 
         profile.username = username
         profile.signature = signature
@@ -67,28 +67,24 @@ class DefaultProfileService : ProfileService {
         profileRepository.save(profile)
     }
 
-    override fun getFollowings(id: Long): List<User> {
-        val user = getUserById(id)
-        return followRepository.findAllByFollower(user).map { it.following }
+    override fun getFollowings(userId: Long): List<User> {
+        return followRepository.findAllByFollowerId(userId).map { it.following }
     }
 
-    override fun getFollowingsCount(id: Long): Long {
-        val user = getUserById(id)
-        return followRepository.countByFollower(user)
+    override fun getFollowingsCount(userId: Long): Long {
+        return followRepository.countByFollowerId(userId)
     }
 
-    override fun getFollowers(id: Long): List<User> {
-        val user = getUserById(id)
-        return followRepository.findAllByFollower(user).map { it.follower }
+    override fun getFollowers(userId: Long): List<User> {
+        return followRepository.findAllByFollowerId(userId).map { it.follower }
     }
 
-    override fun getFollowersCount(id: Long): Long {
-        val user = getUserById(id)
-        return followRepository.countByFollowing(user)
+    override fun getFollowersCount(userId: Long): Long {
+        return followRepository.countByFollowingId(userId)
     }
 
-    override fun follow(id: Long, targetId: Long) {
-        val user = getUserById(id)
+    override fun follow(userId: Long, targetId: Long) {
+        val user = getUserById(userId)
         val target = getUserById(targetId)
         val follow = DefaultFollow()
         follow.follower = user
@@ -96,10 +92,8 @@ class DefaultProfileService : ProfileService {
         followRepository.save(follow)
     }
 
-    override fun unfollow(id: Long, targetId: Long) {
-        val user = getUserById(id)
-        val target = getUserById(targetId)
-        followRepository.deleteByFollowerAndFollowing(user, target)
+    override fun unfollow(userId: Long, targetId: Long) {
+        followRepository.deleteByFollowerIdAndFollowingId(userId, targetId)
     }
 
     fun getUserById(id: Long): DefaultUser {
