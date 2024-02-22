@@ -20,6 +20,10 @@ abstract class DefaultNote : Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override var id: Long = 0
 
+    @ManyToOne
+    @JoinColumn(name = "user")
+    override lateinit var user: DefaultUser
+
     override var title: String = "无标题笔记"
 
     override var description: String = ""

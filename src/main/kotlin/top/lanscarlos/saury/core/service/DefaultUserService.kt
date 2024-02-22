@@ -2,8 +2,11 @@ package top.lanscarlos.saury.core.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import top.lanscarlos.saury.core.entity.DefaultProfile
 import top.lanscarlos.saury.core.entity.DefaultUser
 import top.lanscarlos.saury.entity.User
+import top.lanscarlos.saury.repository.ProfileRepository
 import top.lanscarlos.saury.repository.UserRepository
 import top.lanscarlos.saury.service.UserService
 import java.lang.IllegalStateException
@@ -21,35 +24,31 @@ class DefaultUserService : UserService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    @Autowired
+    private lateinit var profileRepository: ProfileRepository
+
     override fun exists(email: String): Boolean {
         return userRepository.existsByEmail(email)
     }
 
-    override fun register(email: String, password: String, username: String) {
+    @Transactional
+    override fun register(email: String, password: String) {
         if (exists(email)) {
             throw IllegalStateException("User \"$email\" already exists.")
         }
-        val profile = DefaultUser()
-        profile.email = email
-        profile.password = password
-        profile.registerTime = System.currentTimeMillis()
-        userRepository.save(profile)
+        val user = DefaultUser()
+        user.email = email
+        user.password = password
+        user.registerTime = System.currentTimeMillis()
+        userRepository.save(user)
+
+        val profile = DefaultProfile()
+        profile.id = user.id
+        profileRepository.save(profile)
     }
 
     override fun matches(email: String, password: String): User? {
         return userRepository.findByEmailAndPassword(email, password)
-    }
-
-    override fun changePassword(id: Long, oldPassword: String, newPassword: String) {
-        val user = getById(id) as? DefaultUser
-            ?: throw IllegalStateException("Unsupported user profile type.")
-
-        if (user.password != oldPassword) {
-            throw IllegalStateException("Incorrect old password.")
-        }
-
-        user.password = newPassword
-        userRepository.save(user)
     }
 
     override fun getById(id: Long): User {

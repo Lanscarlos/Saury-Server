@@ -53,9 +53,9 @@ class DefaultAuthService : AuthService {
         }
     }
 
-    override fun register(email: String, password: String, username: String, code: String): SaTokenInfo {
+    override fun register(email: String, password: String, code: String): SaTokenInfo {
         verifyCode(email, code)
-        userService.register(email, password, username)
+        userService.register(email, password)
         return login(email, password)
     }
 

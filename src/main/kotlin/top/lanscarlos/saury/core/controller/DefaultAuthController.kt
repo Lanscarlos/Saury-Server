@@ -32,9 +32,9 @@ class DefaultAuthController : AuthController {
     }
 
     @RequestMapping("/register")
-    override fun register(email: String, password: String, username: String, code: String): SaResult {
+    override fun register(email: String, password: String, code: String): SaResult {
         return try {
-            SaResult.data(authService.register(email, password, username, code).tokenValue)
+            SaResult.data(authService.register(email, password, code).tokenValue)
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }

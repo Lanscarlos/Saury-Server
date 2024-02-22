@@ -36,10 +36,9 @@ interface AuthService {
      *
      * @param email 邮箱
      * @param password 密码 (sha256)
-     * @param username 用户名
      * @param code 验证码
      */
-    fun register(email: String, password: String, username: String, code: String): SaTokenInfo
+    fun register(email: String, password: String, code: String): SaTokenInfo
 
     /**
      * 登录

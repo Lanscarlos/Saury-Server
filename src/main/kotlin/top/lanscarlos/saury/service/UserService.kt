@@ -27,9 +27,8 @@ interface UserService {
      *
      * @param email 邮箱
      * @param password 密码 (sha256)
-     * @param username 用户名
      */
-    fun register(email: String, password: String, username: String)
+    fun register(email: String, password: String)
 
     /**
      * 匹配用户
@@ -40,15 +39,6 @@ interface UserService {
      * @return 匹配成功返回用户信息，失败返回 null
      */
     fun matches(email: String, password: String): User?
-
-    /**
-     * 修改密码
-     *
-     * @param id 用户唯一标识
-     * @param oldPassword 旧密码 (sha256)
-     * @param newPassword 新密码 (sha256)
-     */
-    fun changePassword(id: Long, oldPassword: String, newPassword: String)
 
     /**
      * 获取用户信息

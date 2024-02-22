@@ -2,7 +2,6 @@ package top.lanscarlos.saury.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import top.lanscarlos.saury.core.entity.DefaultComment
-import top.lanscarlos.saury.core.entity.DefaultNote
 
 /**
  * Saury
@@ -13,6 +12,8 @@ import top.lanscarlos.saury.core.entity.DefaultNote
  */
 interface CommentRepository : JpaRepository<DefaultComment, Long> {
 
-    fun findAllByNote(note: DefaultNote): List<DefaultComment>
+    fun findAllByNoteId(noteId: Long): List<DefaultComment>
+
+    fun countAllByNoteId(noteId: Long): Long
 
 }

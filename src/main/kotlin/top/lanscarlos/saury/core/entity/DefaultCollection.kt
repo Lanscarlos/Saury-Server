@@ -21,9 +21,9 @@ class DefaultCollection : top.lanscarlos.saury.entity.Collection {
     @JoinColumn(name = "user")
     override lateinit var user: DefaultUser
 
-    override val name: String = "未命名收藏夹"
+    override var name: String = "未命名收藏夹"
 
-    override val description: String = "简介空空如也"
+    override var description: String = "简介空空如也"
 
     override var time: Long = -1
 

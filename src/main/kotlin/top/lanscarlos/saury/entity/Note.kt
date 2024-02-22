@@ -17,6 +17,11 @@ interface Note {
     val id: Long
 
     /**
+     * 笔记作者
+     */
+    val user: User
+
+    /**
      * 笔记标题
      */
     val title: String
@@ -35,7 +40,5 @@ interface Note {
      * 更新时间
      */
     val updateTime: Long
-
-
 
 }

@@ -1,8 +1,8 @@
 package top.lanscarlos.saury.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
-import top.lanscarlos.saury.core.entity.DefaultLike
 import top.lanscarlos.saury.core.entity.DefaultNote
+import top.lanscarlos.saury.core.entity.DefaultStar
 import top.lanscarlos.saury.core.entity.DefaultUser
 
 /**
@@ -10,11 +10,11 @@ import top.lanscarlos.saury.core.entity.DefaultUser
  * top.lanscarlos.saury.repository
  *
  * @author Lanscarlos
- * @since 2024-02-20 12:42
+ * @since 2024-02-22 11:19
  */
-interface LikeRepository : JpaRepository<DefaultLike, Long> {
+interface StarRepository : JpaRepository<DefaultStar, Long> {
 
-    fun findByUserIdAndNoteId(userId: Long, noteId: Long): DefaultLike?
+    fun findAllByUserId(userId: Long): List<DefaultStar>
 
     fun countAllByNoteId(noteId: Long): Long
 

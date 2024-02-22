@@ -23,10 +23,9 @@ interface AuthController {
      *
      * @param email 邮箱
      * @param password 密码
-     * @param username 用户名
      * @param code 验证码
      * */
-    fun register(email: String, password: String, username: String, code: String): SaResult
+    fun register(email: String, password: String, code: String): SaResult
 
     /**
      * 登录
