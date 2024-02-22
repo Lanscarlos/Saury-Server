@@ -59,7 +59,6 @@ interface NoteService {
     /**
      * 删除笔记
      *
-     * @param userId 用户ID
      * @param noteId 笔记ID
      */
     fun deleteNoteById(noteId: Long)
@@ -125,7 +124,6 @@ interface NoteService {
     /**
      * 删除评论
      *
-     * @param userId 用户ID
      * @param commentId 评论ID
      */
     fun deleteComment(commentId: Long)
