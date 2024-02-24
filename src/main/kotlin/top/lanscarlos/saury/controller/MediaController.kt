@@ -14,6 +14,11 @@ import org.springframework.web.multipart.MultipartFile
  */
 interface MediaController {
 
+    /**
+     * 上传文件
+     * @param file 文件
+     * @return 上传结果
+     */
     fun upload(file: MultipartFile): SaResult
 
 }

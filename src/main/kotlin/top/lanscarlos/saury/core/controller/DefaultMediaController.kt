@@ -27,17 +27,11 @@ class DefaultMediaController : MediaController {
     @RequestMapping("/upload")
     override fun upload(file: MultipartFile): SaResult {
         return try {
-//            SaResult.data("http://localhost:8080/media/static/$fileName")
-            println("upload path => " + File("./media").absolutePath)
-            val fileName = mediaService.upload(file)
-            SaResult.data(File("./media").absolutePath)
+            val fileName = mediaService.upload(file).name
+            SaResult.data("http://localhost:8080/media/static/$fileName")
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }
     }
 
-    @RequestMapping("/static/{fileName}")
-    fun getStatic(@PathVariable fileName: String): SaResult {
-        return SaResult.data("http://localhost:8080/media/static/$fileName")
-    }
 }

@@ -3,7 +3,9 @@ package top.lanscarlos.saury.core.service
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import top.lanscarlos.saury.service.MediaService
+import top.lanscarlos.saury.utils.digest
 import java.io.File
+import java.security.MessageDigest
 
 /**
  * Saury
@@ -14,6 +16,8 @@ import java.io.File
  */
 @Service
 class DefaultMediaService : MediaService {
+
+    val digest = MessageDigest.getInstance("SHA-256")
 
     override fun upload(file: MultipartFile): File {
 
@@ -30,7 +34,8 @@ class DefaultMediaService : MediaService {
         }
 
         // 获取文件名
-        val fileName = file.originalFilename ?: "file"
+        val extension = file.originalFilename?.substringAfterLast(".") ?: error("源文件名不能为空")
+        val fileName = file.bytes.digest() + '.' + extension
 
         if (file.isEmpty) {
             error("文件为空")
