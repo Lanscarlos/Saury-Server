@@ -1,7 +1,6 @@
 package top.lanscarlos.saury
 
 import cn.dev33.satoken.secure.SaSecureUtil
-import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import top.lanscarlos.saury.core.entity.DefaultProfile

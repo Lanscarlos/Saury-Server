@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController
 import top.lanscarlos.saury.controller.NoteController
 import top.lanscarlos.saury.service.AuthService
 import top.lanscarlos.saury.service.NoteService
-import top.lanscarlos.saury.service.UserService
 
 /**
  * Saury
