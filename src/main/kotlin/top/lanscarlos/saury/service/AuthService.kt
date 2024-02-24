@@ -63,5 +63,5 @@ interface AuthService {
     /**
      * 获取 token 信息
      */
-    fun getTokenInfo(): SaTokenInfo
+    fun getLoginId(): Long
 }

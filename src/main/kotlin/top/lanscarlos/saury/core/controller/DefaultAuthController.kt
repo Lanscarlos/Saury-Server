@@ -34,7 +34,7 @@ class DefaultAuthController : AuthController {
     @RequestMapping("/register")
     override fun register(email: String, password: String, code: String): SaResult {
         return try {
-            SaResult.data(authService.register(email, password, code).tokenValue)
+            SaResult.data(authService.register(email, password, code).loginId)
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }
@@ -43,7 +43,7 @@ class DefaultAuthController : AuthController {
     @RequestMapping("/login")
     override fun login(email: String, password: String): SaResult {
         return try {
-            SaResult.data(authService.login(email, password).tokenValue)
+            SaResult.data(authService.login(email, password).loginId)
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }
@@ -67,7 +67,7 @@ class DefaultAuthController : AuthController {
     @RequestMapping("/token")
     override fun token(): SaResult {
         return try {
-            SaResult.data(authService.getTokenInfo().tokenValue)
+            SaResult.data(authService.getLoginId())
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }

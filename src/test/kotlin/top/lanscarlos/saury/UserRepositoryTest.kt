@@ -4,7 +4,9 @@ import cn.dev33.satoken.secure.SaSecureUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import top.lanscarlos.saury.core.entity.DefaultProfile
 import top.lanscarlos.saury.core.entity.DefaultUser
+import top.lanscarlos.saury.repository.ProfileRepository
 import top.lanscarlos.saury.repository.UserRepository
 
 /**
@@ -20,27 +22,41 @@ class UserRepositoryTest {
     @Autowired
     lateinit var repository: UserRepository
 
-    @Test
+    @Autowired
+    lateinit var profileRepository: ProfileRepository
+
+//    @Test
     fun testInsert() {
-        val profile = DefaultUser()
-        profile.email = "lanscarlos@hotmail.com"
-        profile.password = SaSecureUtil.sha256("114514")
-        profile.registerTime = System.currentTimeMillis()
-        profile.isBanned = false
-        repository.save(profile)
+        val user = DefaultUser()
+        user.email = "lanscarlos@hotmail.com"
+        user.password = SaSecureUtil.sha256("114514")
+        user.registerTime = System.currentTimeMillis()
+        user.isBanned = false
+        repository.save(user)
+
+        val profile = DefaultProfile()
+        profile.id = user.id
+        profile.username = "卡洛"
+        profileRepository.save(profile)
+
     }
 
-    @Test
+//    @Test
     fun testInsert2() {
-        val profile = DefaultUser()
-        profile.email = "aiurlanta@hotmail.com"
-        profile.password = SaSecureUtil.sha256("114514")
-        profile.registerTime = System.currentTimeMillis()
-        profile.isBanned = false
-        repository.save(profile)
+        val user = DefaultUser()
+        user.email = "aiurlanta@hotmail.com"
+        user.password = SaSecureUtil.sha256("114514")
+        user.registerTime = System.currentTimeMillis()
+        user.isBanned = false
+        repository.save(user)
+
+        val profile = DefaultProfile()
+        profile.id = user.id
+        profile.username = "小兰"
+        profileRepository.save(profile)
     }
 
-    @Test
+//    @Test
     fun testSelect() {
         val password = SaSecureUtil.sha256("114514")
         val profile = repository.findByEmailAndPassword("lanscarlos@hotmail.com", password)

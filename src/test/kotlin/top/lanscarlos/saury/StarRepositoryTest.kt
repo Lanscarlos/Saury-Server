@@ -3,9 +3,9 @@ package top.lanscarlos.saury
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import top.lanscarlos.saury.core.entity.DefaultLike
-import top.lanscarlos.saury.repository.LikeRepository
+import top.lanscarlos.saury.core.entity.DefaultStar
 import top.lanscarlos.saury.repository.NoteRepository
+import top.lanscarlos.saury.repository.StarRepository
 import top.lanscarlos.saury.repository.UserRepository
 
 /**
@@ -13,13 +13,13 @@ import top.lanscarlos.saury.repository.UserRepository
  * top.lanscarlos.saury
  *
  * @author Lanscarlos
- * @since 2024-02-20 12:44
+ * @since 2024-02-20 13:18
  */
 @SpringBootTest
-class LikeRepositoryTest {
+class StarRepositoryTest {
 
     @Autowired
-    lateinit var repository: LikeRepository
+    lateinit var repository: StarRepository
 
     @Autowired
     lateinit var userRepository: UserRepository
@@ -29,10 +29,9 @@ class LikeRepositoryTest {
 
 //    @Test
     fun testInsert() {
-        val like = DefaultLike()
-        like.user = userRepository.getReferenceById(1)
-        like.note = noteRepository.getReferenceById(1)
-        repository.save(like)
+        val star = DefaultStar()
+        star.user = userRepository.getReferenceById(1)
+        star.note = noteRepository.getReferenceById(1)
+        repository.save(star)
     }
-
 }

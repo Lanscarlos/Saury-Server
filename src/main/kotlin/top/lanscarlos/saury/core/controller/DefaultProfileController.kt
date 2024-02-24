@@ -34,7 +34,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/get")
     override fun getProfile(): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val profile = profileService.getById(id)
             SaResult.data(profile)
         } catch (ex: Exception) {
@@ -43,12 +43,12 @@ class DefaultProfileController : ProfileController {
     }
 
     @PostMapping("/change/password")
-    override fun changePassword(oldPassword: String, newPassword: String, code: String): SaResult {
+    override fun changePassword(password: String, code: String): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val user = userService.getById(id)
             authService.verifyCode(user.email, code)
-            profileService.changePassword(id, oldPassword, newPassword)
+            profileService.changePassword(id, password)
             SaResult.ok()
         } catch (ex: Exception) {
             SaResult.error(ex.message)
@@ -64,7 +64,7 @@ class DefaultProfileController : ProfileController {
         birthday: Long
     ) : SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             profileService.updateProfile(id, username, signature, avatar, gender, birthday)
             SaResult.ok()
         } catch (ex: Exception) {
@@ -75,7 +75,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/followings")
     override fun getFollowings(): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val followings = profileService.getFollowings(id)
             SaResult.data(followings)
         } catch (ex: Exception) {
@@ -86,7 +86,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/count/followings")
     override fun getFollowingsCount(): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val count = profileService.getFollowingsCount(id)
             SaResult.data(count)
         } catch (ex: Exception) {
@@ -97,7 +97,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/followers")
     override fun getFollowers(): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val followers = profileService.getFollowers(id)
             SaResult.data(followers)
         } catch (ex: Exception) {
@@ -108,7 +108,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/count/followers")
     override fun getFollowersCount(): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             val count = profileService.getFollowersCount(id)
             SaResult.data(count)
         } catch (ex: Exception) {
@@ -119,7 +119,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/following/{targetId}")
     override fun follow(@PathVariable targetId: Long): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             profileService.follow(id, targetId)
             SaResult.ok()
         } catch (ex: Exception) {
@@ -130,7 +130,7 @@ class DefaultProfileController : ProfileController {
     @RequestMapping("/unfollow/{targetId}")
     override fun unfollow(@PathVariable targetId: Long): SaResult {
         return try {
-            val id = authService.getTokenInfo().getLoginId() as Long
+            val id = authService.getLoginId()
             profileService.unfollow(id, targetId)
             SaResult.ok()
         } catch (ex: Exception) {

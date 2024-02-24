@@ -36,14 +36,9 @@ class DefaultProfileService : ProfileService {
         return profileRepository.findById(userId).orElseThrow { IllegalStateException("User by id \"$userId\" not exists.") }
     }
 
-    override fun changePassword(userId: Long, oldPassword: String, newPassword: String) {
+    override fun changePassword(userId: Long, password: String) {
         val user = getUserById(userId)
-
-        if (user.password != oldPassword) {
-            throw IllegalStateException("Incorrect old password.")
-        }
-
-        user.password = newPassword
+        user.password = password
         userRepository.save(user)
     }
 
@@ -76,7 +71,7 @@ class DefaultProfileService : ProfileService {
     }
 
     override fun getFollowers(userId: Long): List<User> {
-        return followRepository.findAllByFollowerId(userId).map { it.follower }
+        return followRepository.findAllByFollowingId(userId).map { it.follower }
     }
 
     override fun getFollowersCount(userId: Long): Long {
@@ -92,6 +87,7 @@ class DefaultProfileService : ProfileService {
         followRepository.save(follow)
     }
 
+    @Transactional
     override fun unfollow(userId: Long, targetId: Long) {
         followRepository.deleteByFollowerIdAndFollowingId(userId, targetId)
     }

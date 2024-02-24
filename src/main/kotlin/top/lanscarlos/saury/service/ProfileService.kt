@@ -19,10 +19,9 @@ interface ProfileService {
 
     /**
      * 修改密码
-     * @param oldPassword 旧密码
-     * @param newPassword 新密码
+     * @param password 密码
      */
-    fun changePassword(userId: Long, oldPassword: String, newPassword: String)
+    fun changePassword(userId: Long, password: String)
 
     /**
      * 修改资料

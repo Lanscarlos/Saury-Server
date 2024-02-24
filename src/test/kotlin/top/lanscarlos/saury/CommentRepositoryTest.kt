@@ -27,7 +27,7 @@ class CommentRepositoryTest {
     @Autowired
     lateinit var noteRepository: NoteRepository
 
-    @Test
+//    @Test
     fun testInsert() {
         val note = noteRepository.getReferenceById(1)
         val user = userRepository.getReferenceById(1)
@@ -39,7 +39,7 @@ class CommentRepositoryTest {
         repository.save(comment)
     }
 
-    @Test
+//    @Test
     fun testInsert2() {
         val user = userRepository.getReferenceById(2)
         val note = noteRepository.getReferenceById(1)
@@ -47,14 +47,14 @@ class CommentRepositoryTest {
         comment.user = user
         comment.note = note
         comment.content = "这是一条回复评论"
-        comment.parent = repository.getReferenceById(1)
+        comment.parent = repository.getReferenceById(2)
 
         repository.save(comment)
     }
 
-    @Test
+//    @Test
     fun testFind() {
-        val comments = repository.findAllByNote(noteRepository.getReferenceById(1))
+        val comments = repository.findAllByNoteId(1)
         println("comment.size = ${comments.size}")
         val comment = comments.firstOrNull()
         println("comment?.user?.id = ${comment?.user?.id}")

@@ -79,7 +79,7 @@ class DefaultAuthService : AuthService {
         return StpUtil.isLogin()
     }
 
-    override fun getTokenInfo(): SaTokenInfo {
-        return StpUtil.getTokenInfo()
+    override fun getLoginId(): Long {
+        return StpUtil.getTokenInfo().loginId.toString().toLong()
     }
 }

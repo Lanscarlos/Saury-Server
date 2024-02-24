@@ -19,11 +19,10 @@ interface ProfileController {
     /**
      * 修改密码
      *
-     * @param oldPassword 旧密码
-     * @param newPassword 新密码
+     * @param password 旧密码
      * @param code 验证码
      * */
-    fun changePassword(oldPassword: String, newPassword: String, code: String): SaResult
+    fun changePassword(password: String, code: String): SaResult
 
     /**
      * 修改资料

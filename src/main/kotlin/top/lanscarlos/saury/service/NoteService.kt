@@ -28,7 +28,7 @@ interface NoteService {
      * @param userId 用户ID
      * @return 笔记列表
      */
-    fun getNotesByUser(userId: Long): List<Note>
+    fun getNotesByUserId(userId: Long): List<Note>
 
     /**
      * 发布笔记
@@ -46,15 +46,14 @@ interface NoteService {
     /**
      * 更新笔记
      *
-     * @param userId 用户ID
+     * @param noteId 笔记ID
      * @param title 标题
      * @param description 描述
-     * @param type 类型
      * @param content 内容
      * @param tags 标签
      * @return 笔记
      */
-    fun updateNote(userId: Long, title: String, description: String, type: String, content: String, tags: List<String>): Note
+    fun updateNote(noteId: Long, title: String?, description: String?, content: String?, tags: List<String>?): Note
 
     /**
      * 删除笔记

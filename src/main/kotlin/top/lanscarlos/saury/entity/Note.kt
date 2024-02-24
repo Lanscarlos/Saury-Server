@@ -41,4 +41,9 @@ interface Note {
      */
     val updateTime: Long
 
+    /**
+     * 笔记类型
+     */
+    val type: String
+
 }

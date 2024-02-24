@@ -11,7 +11,7 @@ import top.lanscarlos.saury.entity.Note
  * @since 2024-02-11 20:50
  */
 @Entity
-@Table(name = "node")
+@Table(name = "note")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 abstract class DefaultNote : Note {
@@ -31,5 +31,8 @@ abstract class DefaultNote : Note {
     override var createTime: Long = 0
 
     override var updateTime: Long = 0
+
+    @Column(name = "type", insertable = false, updatable = false)
+    override var type: String = "text"
 
 }

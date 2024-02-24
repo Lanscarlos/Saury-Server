@@ -41,7 +41,7 @@ class DefaultNoteService : NoteService {
         return noteRepository.findById(id).orElseThrow { IllegalStateException("Note by id \"$id\" not exists.") }
     }
 
-    override fun getNotesByUser(userId: Long): List<Note> {
+    override fun getNotesByUserId(userId: Long): List<Note> {
         return noteRepository.findAllByUserId(userId)
     }
 
@@ -66,34 +66,42 @@ class DefaultNoteService : NoteService {
         note.createTime = System.currentTimeMillis()
         note.updateTime = note.createTime
 
-        TODO("标签")
+//        TODO("标签")
 
         return noteRepository.save(note)
     }
 
     override fun updateNote(
-        userId: Long,
-        title: String,
-        description: String,
-        type: String,
-        content: String,
-        tags: List<String>
+        noteId: Long,
+        title: String?,
+        description: String?,
+        content: String?,
+        tags: List<String>?
     ): Note {
-        val note = getById(userId) as DefaultNote
+        val note = getById(noteId) as DefaultNote
 
-        note.title = title
-        note.description = description
+        if (title != null) {
+            note.title = title
+        }
+        if (description != null) {
+            note.description = description
+        }
         note.updateTime = System.currentTimeMillis()
 
-        when (note) {
-            is DefaultTextNote -> note.content = content
-            is DefaultImageNote -> note.content = content
-            is DefaultVideoNote -> note.content = content
+        if (content != null) {
+            when (note) {
+                is DefaultTextNote -> note.content = content
+                is DefaultImageNote -> note.content = content
+                is DefaultVideoNote -> note.content = content
+            }
         }
+
+//        TODO("标签")
 
         return noteRepository.save(note)
     }
 
+    @Transactional
     override fun deleteNoteById(noteId: Long) {
         noteRepository.deleteById(noteId)
     }
@@ -114,6 +122,7 @@ class DefaultNoteService : NoteService {
         likeRepository.save(like)
     }
 
+    @Transactional
     override fun unlikeNote(userId: Long, noteId: Long) {
         likeRepository.deleteByUserIdAndNoteId(userId, noteId)
     }
@@ -158,6 +167,7 @@ class DefaultNoteService : NoteService {
         commentRepository.save(comment)
     }
 
+    @Transactional
     override fun deleteComment(commentId: Long) {
         commentRepository.deleteById(commentId)
     }

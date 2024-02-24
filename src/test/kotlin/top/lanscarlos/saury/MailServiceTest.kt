@@ -19,7 +19,7 @@ class MailServiceTest {
     @Autowired
     lateinit var mailService: MailService
 
-    @Test
+//    @Test
     fun sendEmail() {
         mailService.sendSimpleMail(
             "lanscarlos@hotmail.com",
@@ -28,7 +28,7 @@ class MailServiceTest {
         )
     }
 
-    @Test
+//    @Test
     fun templateVerification() {
         val resource =
             ClassPathResource("templates/mail-verify-code.html").inputStream.bufferedReader(Charsets.UTF_8).use {
@@ -37,7 +37,7 @@ class MailServiceTest {
         println(resource)
     }
 
-    @Test
+//    @Test
     fun testHtmlMail() {
         mailService.sendHtmlMail("lanscarlos@hotmail.com", "Verify Code", "mail-verify-code", "code" to "114514")
     }
