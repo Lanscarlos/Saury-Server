@@ -1,5 +1,6 @@
 package top.lanscarlos.saury
 
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import top.lanscarlos.saury.core.entity.DefaultImageNote
@@ -51,6 +52,14 @@ class NoteRepositoryTest {
     fun testGet() {
         val note = repository.findById(2).orElseThrow { IllegalStateException("Note by id \"1\" not exists.") }
         println("user.id => ${note.user.id}")
+    }
+
+    @Test
+    fun testKeyword() {
+        val notes = repository.findByKeyword("spring")
+        for (note in notes) {
+            println("note.title => ${note.title}")
+        }
     }
 
 }

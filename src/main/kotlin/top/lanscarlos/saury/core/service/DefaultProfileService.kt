@@ -50,7 +50,7 @@ class DefaultProfileService : ProfileService {
         avatar: String,
         gender: Int,
         birthday: Long
-    ) {
+    ): Profile {
         val profile = profileRepository.findById(userId).orElseThrow { IllegalStateException("User by id \"$userId\" not exists.") }
 
         profile.username = username
@@ -60,6 +60,8 @@ class DefaultProfileService : ProfileService {
         profile.birthday = birthday
 
         profileRepository.save(profile)
+
+        return profile
     }
 
     override fun getFollowings(userId: Long): List<User> {
@@ -78,7 +80,17 @@ class DefaultProfileService : ProfileService {
         return followRepository.countByFollowingId(userId)
     }
 
+    override fun isFollowed(userId: Long, targetId: Long): Boolean {
+        return followRepository.findByFollowerIdAndFollowingId(userId, targetId) != null
+    }
+
+
     override fun follow(userId: Long, targetId: Long) {
+
+        if (isFollowed(userId, targetId)) {
+            throw IllegalStateException("User \"$userId\" has followed user \"$targetId\".")
+        }
+
         val user = getUserById(userId)
         val target = getUserById(targetId)
         val follow = DefaultFollow()

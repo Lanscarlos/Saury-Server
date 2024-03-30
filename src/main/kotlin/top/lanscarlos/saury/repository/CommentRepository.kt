@@ -16,4 +16,6 @@ interface CommentRepository : JpaRepository<DefaultComment, Long> {
 
     fun countAllByNoteId(noteId: Long): Long
 
+    fun deleteAllByNoteId(noteId: Long)
+
 }

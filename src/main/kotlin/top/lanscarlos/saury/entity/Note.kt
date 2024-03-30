@@ -46,4 +46,17 @@ interface Note {
      */
     val type: String
 
+    /**
+     * 笔记价格
+     * */
+    val price: Double
+
+    /**
+     * 笔记状态
+     * 0: 审核状态
+     * 1: 审核通过
+     * 2: 审核不通过，仅作者可见
+     * */
+    val state: Int
+
 }

@@ -26,6 +26,12 @@ class DefaultUser : User {
 
     override var isBanned: Boolean = false
 
+    override var coin: Double = 0.0
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    lateinit var profile: DefaultProfile
+
     override fun toString(): String {
         return "DefaultUserProfile(id=$id, email='$email', password='$password', registerTime=$registerTime, isBanned=$isBanned)"
     }

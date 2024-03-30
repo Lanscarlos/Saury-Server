@@ -12,6 +12,8 @@ import top.lanscarlos.saury.core.entity.DefaultStar
  */
 interface StarRepository : JpaRepository<DefaultStar, Long> {
 
+    fun findByUserIdAndNoteId(userId: Long, noteId: Long): DefaultStar?
+
     fun findAllByUserId(userId: Long): List<DefaultStar>
 
     fun countAllByNoteId(noteId: Long): Long

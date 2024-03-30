@@ -31,6 +31,19 @@ interface NoteService {
     fun getNotesByUserId(userId: Long): List<Note>
 
     /**
+     * 获取所有笔记
+     * */
+    fun getAllNotes(): List<Note>
+
+    /**
+     * 根据关键字搜索笔记
+     *
+     * @param keyword 关键字
+     * @return 笔记列表
+     */
+    fun findByKeyword(keyword: String): List<Note>
+
+    /**
      * 发布笔记
      *
      * @param userId 用户ID
@@ -60,7 +73,30 @@ interface NoteService {
      *
      * @param noteId 笔记ID
      */
-    fun deleteNoteById(noteId: Long)
+    fun deleteNoteById(userId: Long, noteId: Long)
+
+    /**
+     * 审核笔记通过
+     *
+     * @param noteId 笔记ID
+     * */
+    fun approve(noteId: Long)
+
+    /**
+     * 审核笔记不通过
+     *
+     * @param noteId 笔记ID
+     * */
+    fun reject(noteId: Long)
+
+    /**
+     * 是否点赞笔记
+     *
+     * @param userId 用户ID
+     * @param noteId 笔记ID
+     * @return 是否点赞
+     */
+    fun isLike(userId: Long, noteId: Long): Boolean
 
     /**
      * 点赞笔记
@@ -85,6 +121,15 @@ interface NoteService {
      * @return 点赞数量
      */
     fun getLikeCount(noteId: Long): Long
+
+    /**
+     * 是否收藏笔记
+     *
+     * @param userId 用户ID
+     * @param noteId 笔记ID
+     * @return 是否收藏
+     */
+    fun isStar(userId: Long, noteId: Long): Boolean
 
     /**
      * 收藏笔记
@@ -118,7 +163,7 @@ interface NoteService {
      * @param content 评论内容
      * @param parentId 父评论ID，如果是一级评论则为 0
      */
-    fun commentNote(userId: Long, noteId: Long, content: String, parentId: Long)
+    fun commentNote(userId: Long, noteId: Long, content: String, parentId: Long): Comment
 
     /**
      * 删除评论
@@ -142,5 +187,12 @@ interface NoteService {
      * @return 评论列表
      */
     fun getComments(noteId: Long): List<Comment>
+
+    /**
+     * 购买笔记
+     *
+     * @param noteId 笔记ID
+     */
+    fun purchase(userId: Long, noteId: Long)
 
 }

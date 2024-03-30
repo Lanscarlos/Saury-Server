@@ -31,7 +31,7 @@ interface ProfileService {
      * @param gender 性别
      * @param birthday 生日
      */
-    fun updateProfile(userId: Long, username: String, signature: String, avatar: String, gender: Int, birthday: Long)
+    fun updateProfile(userId: Long, username: String, signature: String, avatar: String, gender: Int, birthday: Long): Profile
 
     /**
      * 获取关注列表
@@ -52,6 +52,12 @@ interface ProfileService {
      * 获取粉丝数
      */
     fun getFollowersCount(userId: Long): Long
+
+    /**
+     * 是否已关注
+     * @param targetId 目标用户 id
+     * */
+    fun isFollowed(userId: Long, targetId: Long): Boolean
 
     /**
      * 关注

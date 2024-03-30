@@ -2,6 +2,7 @@ package top.lanscarlos.saury.core.controller
 
 import cn.dev33.satoken.util.SaResult
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -17,6 +18,7 @@ import java.io.File
  * @author Lanscarlos
  * @since 2024-02-24 15:28
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/media")
 class DefaultMediaController : MediaController {
@@ -28,7 +30,7 @@ class DefaultMediaController : MediaController {
     override fun upload(file: MultipartFile): SaResult {
         return try {
             val fileName = mediaService.upload(file).name
-            SaResult.data("http://localhost:8080/media/static/$fileName")
+            SaResult.data(fileName)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }

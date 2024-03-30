@@ -18,6 +18,11 @@ spring:
         # 指定 JPA 的自动表生成策略，驼峰自动映射为下划线格式
         implicit-strategy: 'org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl'
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
   mvc:
     static-path-pattern: '/static/**'
 
@@ -57,3 +62,10 @@ sa-token:
   is-log: false
   # 是否从 cookie 中读取 token
   is-read-cookie: true
+
+alipay:
+  gateway-url: 'https://openapi-sandbox.dl.alipaydev.com/gateway.do'
+  charset: 'UTF-8'
+  sign-type: 'RSA2'
+  notify-url: 'http://localhost:8080/alipay/error'
+  return-url: 'http://localhost:8080/alipay/success'

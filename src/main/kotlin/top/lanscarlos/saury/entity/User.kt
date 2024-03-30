@@ -37,4 +37,9 @@ interface User {
      */
     val isBanned: Boolean
 
+    /**
+     * 持有金币
+     * */
+    val coin: Double
+
 }

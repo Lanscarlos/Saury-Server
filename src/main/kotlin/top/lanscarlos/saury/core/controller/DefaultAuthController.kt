@@ -2,6 +2,7 @@ package top.lanscarlos.saury.core.controller
 
 import cn.dev33.satoken.util.SaResult
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import top.lanscarlos.saury.controller.AuthController
@@ -14,6 +15,7 @@ import top.lanscarlos.saury.service.AuthService
  * @author Lanscarlos
  * @since 2023-09-08 21:39
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 class DefaultAuthController : AuthController {
@@ -34,7 +36,7 @@ class DefaultAuthController : AuthController {
     @RequestMapping("/register")
     override fun register(email: String, password: String, code: String): SaResult {
         return try {
-            SaResult.data(authService.register(email, password, code).loginId)
+            SaResult.data(authService.register(email, password, code))
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }
@@ -43,7 +45,7 @@ class DefaultAuthController : AuthController {
     @RequestMapping("/login")
     override fun login(email: String, password: String): SaResult {
         return try {
-            SaResult.data(authService.login(email, password).loginId)
+            SaResult.data(authService.login(email, password))
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }

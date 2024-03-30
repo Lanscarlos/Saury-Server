@@ -34,15 +34,29 @@ class DefaultNoteService : NoteService {
     private lateinit var commentRepository: CommentRepository
 
     @Autowired
+    private lateinit var orderRepository: OrderRepository
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
+
+    @Autowired
     private lateinit var userService: UserService
 
 
-    override fun getById(id: Long): Note {
+    override fun getById(id: Long): DefaultNote {
         return noteRepository.findById(id).orElseThrow { IllegalStateException("Note by id \"$id\" not exists.") }
     }
 
     override fun getNotesByUserId(userId: Long): List<Note> {
         return noteRepository.findAllByUserId(userId)
+    }
+
+    override fun getAllNotes(): List<Note> {
+        return noteRepository.findAll()
+    }
+
+    override fun findByKeyword(keyword: String): List<Note> {
+        return noteRepository.findByKeyword(keyword)
     }
 
     override fun publishNote(
@@ -54,7 +68,9 @@ class DefaultNoteService : NoteService {
         tags: List<String>
     ): Note {
         val note = when (type) {
-            "text" -> DefaultTextNote().also { it.content = content }
+            "text" -> DefaultTextNote().also {
+                it.content = content.replace("\n", "<br>").replace(" ", "&nbsp;")
+            }
             "image" -> DefaultImageNote().also { it.content = content }
             "video" -> DefaultVideoNote().also { it.content = content }
             else -> throw IllegalArgumentException("Invalid note type \"$type\".")
@@ -102,14 +118,35 @@ class DefaultNoteService : NoteService {
     }
 
     @Transactional
-    override fun deleteNoteById(noteId: Long) {
+    override fun deleteNoteById(userId: Long, noteId: Long) {
+        likeRepository.deleteByUserIdAndNoteId(userId, noteId)
+        starRepository.deleteByUserIdAndNoteId(userId, noteId)
+        commentRepository.deleteAllByNoteId(noteId)
         noteRepository.deleteById(noteId)
+    }
+
+    @Transactional
+    override fun approve(noteId: Long) {
+        val note = getById(noteId)
+        note.state = 1
+        noteRepository.save(note)
+    }
+
+    @Transactional
+    override fun reject(noteId: Long) {
+        val note = getById(noteId)
+        note.state = 2
+        noteRepository.save(note)
+    }
+
+    override fun isLike(userId: Long, noteId: Long): Boolean {
+        return likeRepository.findByUserIdAndNoteId(userId, noteId) != null
     }
 
     @Transactional
     override fun likeNote(userId: Long, noteId: Long) {
 
-        if (likeRepository.findByUserIdAndNoteId(userId, noteId) != null) {
+        if (isLike(userId, noteId)) {
             throw IllegalStateException("User \"$userId\" has liked note \"$noteId\".")
         }
 
@@ -131,7 +168,15 @@ class DefaultNoteService : NoteService {
         return likeRepository.countAllByNoteId(noteId)
     }
 
+    override fun isStar(userId: Long, noteId: Long): Boolean {
+        return starRepository.findByUserIdAndNoteId(userId, noteId) != null
+    }
+
     override fun starNote(userId: Long, noteId: Long) {
+
+        if (isStar(userId, noteId)) {
+            throw IllegalStateException("User \"$userId\" has star note \"$noteId\".")
+        }
 
         val star = DefaultStar().also {
             it.user = userService.getById(userId) as DefaultUser
@@ -151,7 +196,7 @@ class DefaultNoteService : NoteService {
         return starRepository.countAllByNoteId(noteId)
     }
 
-    override fun commentNote(userId: Long, noteId: Long, content: String, parentId: Long) {
+    override fun commentNote(userId: Long, noteId: Long, content: String, parentId: Long): Comment {
         val user = userService.getById(userId) as DefaultUser
         val note = getById(noteId) as DefaultNote
         val parent = commentRepository.findById(parentId).getOrNull()
@@ -165,6 +210,8 @@ class DefaultNoteService : NoteService {
         }
 
         commentRepository.save(comment)
+
+        return comment
     }
 
     @Transactional
@@ -178,6 +225,34 @@ class DefaultNoteService : NoteService {
 
     override fun getComments(noteId: Long): List<Comment> {
         return commentRepository.findAllByNoteId(noteId)
+    }
+
+    @Transactional
+    override fun purchase(userId: Long, noteId: Long) {
+        val note = getById(noteId)
+        if (note.price <= 0) {
+            error("This note is free.")
+        }
+        if (orderRepository.existsByUserIdAndNoteId(userId, noteId)) {
+            // 已购买
+            error("Already purchased.")
+        }
+        val user = userService.getById(userId) as DefaultUser
+        if (user.coin < note.price) {
+            // 金币不足
+            error("Insufficient Coin.")
+        }
+
+        val order = DefaultOrder()
+        order.subject = "购买笔记《${note.title}》"
+        order.amount = note.price
+        order.status = true
+        order.noteId = noteId
+
+        user.coin -= note.price
+
+        orderRepository.save(order)
+        userRepository.save(user)
     }
 
 }

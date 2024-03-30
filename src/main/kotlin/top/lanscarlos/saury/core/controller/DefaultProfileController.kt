@@ -2,10 +2,7 @@ package top.lanscarlos.saury.core.controller
 
 import cn.dev33.satoken.util.SaResult
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import top.lanscarlos.saury.controller.ProfileController
 import top.lanscarlos.saury.service.AuthService
 import top.lanscarlos.saury.service.ProfileService
@@ -18,6 +15,7 @@ import top.lanscarlos.saury.service.UserService
  * @author Lanscarlos
  * @since 2024-02-20 15:23
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/profile")
 class DefaultProfileController : ProfileController {
@@ -35,8 +33,8 @@ class DefaultProfileController : ProfileController {
     override fun getProfile(): SaResult {
         return try {
             val id = authService.getLoginId()
-            val profile = profileService.getById(id)
-            SaResult.data(profile)
+            val user = userService.getById(id)
+            SaResult.data(user)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }
@@ -65,8 +63,8 @@ class DefaultProfileController : ProfileController {
     ) : SaResult {
         return try {
             val id = authService.getLoginId()
-            profileService.updateProfile(id, username, signature, avatar, gender, birthday)
-            SaResult.ok()
+            val profile = profileService.updateProfile(id, username, signature, avatar, gender, birthday)
+            SaResult.data(profile)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }

@@ -2,6 +2,7 @@ package top.lanscarlos.saury.core.controller
 
 import cn.dev33.satoken.util.SaResult
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,6 +17,7 @@ import top.lanscarlos.saury.service.NoteService
  * @author Lanscarlos
  * @since 2024-02-24 12:17
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/note")
 class DefaultNoteController : NoteController {
@@ -25,6 +27,16 @@ class DefaultNoteController : NoteController {
 
     @Autowired
     private lateinit var noteService: NoteService
+
+    @RequestMapping("/notes")
+    override fun getNotes(noteId: Long): SaResult {
+        return try {
+            val notes = noteService.getAllNotes()
+            SaResult.data(notes)
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
 
     @RequestMapping("/detail/{noteId}")
     override fun getNote(@PathVariable noteId: Long): SaResult {
@@ -40,6 +52,16 @@ class DefaultNoteController : NoteController {
     override fun getNotesByUserId(@PathVariable userId: Long): SaResult {
         return try {
             val notes = noteService.getNotesByUserId(userId)
+            SaResult.data(notes)
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/search/{keyword}")
+    override fun searchByKeyword(@PathVariable keyword: String): SaResult {
+        return try {
+            val notes = noteService.findByKeyword(keyword)
             SaResult.data(notes)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
@@ -70,8 +92,40 @@ class DefaultNoteController : NoteController {
     @RequestMapping("/delete/{noteId}")
     override fun deleteNote(@PathVariable noteId: Long): SaResult {
         return try {
-            noteService.deleteNoteById(noteId)
+            val userId = authService.getLoginId()
+            noteService.deleteNoteById(userId, noteId)
             SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/approve/{noteId}")
+    override fun approve(@PathVariable noteId: Long): SaResult {
+        return try {
+            noteService.approve(noteId)
+            SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/reject/{noteId}")
+    override fun reject(@PathVariable noteId: Long): SaResult {
+        return try {
+            noteService.reject(noteId)
+            SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/isLike/{noteId}")
+    override fun isLike(@PathVariable noteId: Long): SaResult {
+        return try {
+            val userId = authService.getLoginId()
+            val isLike = noteService.isLike(userId, noteId)
+            SaResult.data(isLike)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }
@@ -94,6 +148,17 @@ class DefaultNoteController : NoteController {
             val userId = authService.getLoginId()
             noteService.unlikeNote(userId, noteId)
             SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/isStar/{noteId}")
+    override fun isStar(@PathVariable noteId: Long): SaResult {
+        return try {
+            val userId = authService.getLoginId()
+            val isStar = noteService.isStar(userId, noteId)
+            SaResult.data(isStar)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }
@@ -125,8 +190,8 @@ class DefaultNoteController : NoteController {
     override fun commentNote(@PathVariable noteId: Long, content: String, parentId: Long?): SaResult {
         return try {
             val userId = authService.getLoginId()
-            noteService.commentNote(userId, noteId, content, parentId ?: -1)
-            SaResult.ok()
+            val comment = noteService.commentNote(userId, noteId, content, parentId ?: -1)
+            SaResult.data(comment)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }
@@ -177,6 +242,17 @@ class DefaultNoteController : NoteController {
         return try {
             val count = noteService.getCommentCount(noteId)
             SaResult.data(count)
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/purchase/{noteId}")
+    override fun purchaseNote(@PathVariable noteId: Long): SaResult {
+        return try {
+            val userId = authService.getLoginId()
+            noteService.purchase(userId, noteId)
+            SaResult.ok()
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }

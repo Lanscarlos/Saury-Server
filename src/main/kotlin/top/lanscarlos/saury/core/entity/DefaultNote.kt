@@ -35,4 +35,8 @@ abstract class DefaultNote : Note {
     @Column(name = "type", insertable = false, updatable = false)
     override var type: String = "text"
 
+    override var price: Double = 0.0
+
+    override var state: Int = 0
+
 }
