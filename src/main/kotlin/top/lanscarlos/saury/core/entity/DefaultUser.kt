@@ -24,6 +24,8 @@ class DefaultUser : User {
 
     override var registerTime: Long = 0
 
+    override val isAdmin: Boolean = false
+
     override var isBanned: Boolean = false
 
     override var coin: Double = 0.0

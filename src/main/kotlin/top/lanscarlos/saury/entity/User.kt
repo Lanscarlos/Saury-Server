@@ -33,6 +33,11 @@ interface User {
     val registerTime: Long
 
     /**
+     * 是否为管理员
+     * */
+    val isAdmin: Boolean
+
+    /**
      * 是否被封禁
      */
     val isBanned: Boolean
