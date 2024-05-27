@@ -32,6 +32,7 @@ class DefaultMediaController : MediaController {
             val fileName = mediaService.upload(file).name
             SaResult.data(fileName)
         } catch (ex: Exception) {
+            ex.printStackTrace()
             SaResult.error(ex.message)
         }
     }

@@ -12,8 +12,10 @@ import top.lanscarlos.saury.core.entity.DefaultOrder
  */
 interface OrderRepository : JpaRepository<DefaultOrder, Long> {
 
+    fun findByUserIdAndNoteId(userId: Long, noteId: Long): DefaultOrder?
+
     fun findAllByUserId(userId: Long): List<DefaultOrder>
 
-    fun existsByUserIdAndNoteId(userId: Long, noteId: Long): Boolean
+    fun findByOrderNo(orderNo: String): DefaultOrder
 
 }

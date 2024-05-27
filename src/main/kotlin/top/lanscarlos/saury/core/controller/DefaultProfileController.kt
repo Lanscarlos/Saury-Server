@@ -70,6 +70,17 @@ class DefaultProfileController : ProfileController {
         }
     }
 
+    @RequestMapping("/isFollowed/{targetId}")
+    override fun isFollowed(@PathVariable targetId: Long): SaResult {
+        return try {
+            val userId = authService.getLoginId()
+            val followings = profileService.isFollowed(userId, targetId)
+            SaResult.data(followings)
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
     @RequestMapping("/followings")
     override fun getFollowings(): SaResult {
         return try {
@@ -114,7 +125,7 @@ class DefaultProfileController : ProfileController {
         }
     }
 
-    @RequestMapping("/following/{targetId}")
+    @RequestMapping("/follow/{targetId}")
     override fun follow(@PathVariable targetId: Long): SaResult {
         return try {
             val id = authService.getLoginId()
@@ -131,6 +142,16 @@ class DefaultProfileController : ProfileController {
             val id = authService.getLoginId()
             profileService.unfollow(id, targetId)
             SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/stars")
+    override fun stars(): SaResult {
+        return try {
+            val id = authService.getLoginId()
+            SaResult.data(profileService.getStars(id))
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }

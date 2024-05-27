@@ -58,4 +58,14 @@ interface UserService {
      */
     fun getByEmail(email: String): User?
 
+    fun getUsers(): List<User>
+
+    fun banUser(userId: Long)
+
+    fun unbanUser(userId: Long)
+
+    fun promoteUser(userId: Long)
+
+    fun unpromoteUser(userId: Long)
+
 }

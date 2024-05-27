@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import top.lanscarlos.saury.core.entity.*
 import top.lanscarlos.saury.entity.Comment
 import top.lanscarlos.saury.entity.Note
+import top.lanscarlos.saury.entity.Order
 import top.lanscarlos.saury.repository.*
 import top.lanscarlos.saury.service.NoteService
 import top.lanscarlos.saury.service.UserService
@@ -64,6 +65,7 @@ class DefaultNoteService : NoteService {
         title: String,
         description: String,
         type: String,
+        price: Double,
         content: String,
         tags: List<String>
     ): Note {
@@ -79,6 +81,7 @@ class DefaultNoteService : NoteService {
         note.user = userService.getById(userId) as DefaultUser
         note.title = title
         note.description = description
+        note.price = price
         note.createTime = System.currentTimeMillis()
         note.updateTime = note.createTime
 
@@ -136,6 +139,13 @@ class DefaultNoteService : NoteService {
     override fun reject(noteId: Long) {
         val note = getById(noteId)
         note.state = 2
+        noteRepository.save(note)
+    }
+
+    @Transactional
+    override fun reaudit(noteId: Long) {
+        val note = getById(noteId)
+        note.state = 0
         noteRepository.save(note)
     }
 
@@ -227,32 +237,44 @@ class DefaultNoteService : NoteService {
         return commentRepository.findAllByNoteId(noteId)
     }
 
+    override fun isPurchased(userId: Long, noteId: Long): Boolean {
+        return orderRepository.findByUserIdAndNoteId(userId, noteId)?.status == true
+    }
+
     @Transactional
-    override fun purchase(userId: Long, noteId: Long) {
+    override fun purchase(userId: Long, noteId: Long): Order {
         val note = getById(noteId)
         if (note.price <= 0) {
             error("This note is free.")
         }
-        if (orderRepository.existsByUserIdAndNoteId(userId, noteId)) {
-            // 已购买
-            error("Already purchased.")
+
+        val existing = orderRepository.findByUserIdAndNoteId(userId, noteId)
+        if (existing != null) {
+            // 已存在订单
+            if (existing.status) {
+                // 已购买
+                error("Already purchased.")
+            }
+            return existing
         }
+
         val user = userService.getById(userId) as DefaultUser
-        if (user.coin < note.price) {
-            // 金币不足
-            error("Insufficient Coin.")
-        }
+//        if (user.coin < note.price) {
+//            // 金币不足
+//            error("Insufficient Coin.")
+//        }
+//        user.coin -= note.price
+//        userRepository.save(user)
 
         val order = DefaultOrder()
+        order.user = user
+        order.noteId = noteId
         order.subject = "购买笔记《${note.title}》"
         order.amount = note.price
-        order.status = true
-        order.noteId = noteId
-
-        user.coin -= note.price
 
         orderRepository.save(order)
-        userRepository.save(user)
+
+        return order
     }
 
 }

@@ -29,7 +29,7 @@ class DefaultNoteController : NoteController {
     private lateinit var noteService: NoteService
 
     @RequestMapping("/notes")
-    override fun getNotes(noteId: Long): SaResult {
+    override fun getNotes(): SaResult {
         return try {
             val notes = noteService.getAllNotes()
             SaResult.data(notes)
@@ -69,10 +69,10 @@ class DefaultNoteController : NoteController {
     }
 
     @RequestMapping("/publish")
-    override fun publishNote(title: String, description: String, type: String, content: String, tags: String): SaResult {
+    override fun publishNote(title: String, description: String, type: String, price: Double, content: String, tags: String): SaResult {
         return try {
             val userId = authService.getLoginId()
-            val note = noteService.publishNote(userId, title, description, type, content, tags.split(","))
+            val note = noteService.publishNote(userId, title, description, type, price, content, tags.split(","))
             SaResult.data(note)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
@@ -114,6 +114,16 @@ class DefaultNoteController : NoteController {
     override fun reject(@PathVariable noteId: Long): SaResult {
         return try {
             noteService.reject(noteId)
+            SaResult.ok()
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/reaudit/{noteId}")
+    override fun reauditNote(@PathVariable noteId: Long): SaResult {
+        return try {
+            noteService.reaudit(noteId)
             SaResult.ok()
         } catch (ex: Exception) {
             SaResult.error(ex.message)
@@ -247,12 +257,23 @@ class DefaultNoteController : NoteController {
         }
     }
 
-    @RequestMapping("/purchase/{noteId}")
-    override fun purchaseNote(@PathVariable noteId: Long): SaResult {
+    @RequestMapping("/isPurchased/{noteId}")
+    override fun isPurchased(@PathVariable noteId: Long): SaResult {
         return try {
             val userId = authService.getLoginId()
-            noteService.purchase(userId, noteId)
-            SaResult.ok()
+            val result = noteService.isPurchased(userId, noteId)
+            SaResult.data(result)
+        } catch (ex: Exception) {
+            SaResult.error(ex.message)
+        }
+    }
+
+    @RequestMapping("/purchase/{noteId}")
+    override fun purchase(@PathVariable noteId: Long): SaResult {
+        return try {
+            val userId = authService.getLoginId()
+            val order = noteService.purchase(userId, noteId)
+            SaResult.data(order)
         } catch (ex: Exception) {
             SaResult.error(ex.message)
         }

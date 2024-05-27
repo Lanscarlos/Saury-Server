@@ -1,5 +1,7 @@
 package top.lanscarlos.saury.service
 
+import top.lanscarlos.saury.entity.Order
+
 /**
  * Saury
  * top.lanscarlos.saury.service
@@ -9,6 +11,12 @@ package top.lanscarlos.saury.service
  */
 interface AlipayService {
 
-    fun pay(userId: Long, subject: String, amount: Double): String
+    fun getOrder(orderId: Long): Order
+
+    fun approveOrder(orderId: Long): Order
+
+    fun submit(userId: Long, subject: String, amount: Double)
+
+    fun pay(orderId: Long): String
 
 }

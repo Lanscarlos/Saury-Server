@@ -46,9 +46,7 @@ interface Order {
     val createTime: Long
 
     /**
-     * 关联笔记属性
-     * 用于判断当前订单属于充值订单还是购买订单
-     * 若该属性大于零，即代表当前属于购买订单，该属性代表购买的笔记 ID
+     * 购买的笔记 ID
      * */
     val noteId: Long
 

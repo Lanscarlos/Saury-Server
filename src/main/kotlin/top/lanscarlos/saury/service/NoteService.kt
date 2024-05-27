@@ -2,6 +2,7 @@ package top.lanscarlos.saury.service
 
 import top.lanscarlos.saury.entity.Comment
 import top.lanscarlos.saury.entity.Note
+import top.lanscarlos.saury.entity.Order
 
 /**
  * Saury
@@ -54,7 +55,7 @@ interface NoteService {
      * @param tags 标签
      * @return 笔记
      */
-    fun publishNote(userId: Long, title: String, description: String, type: String, content: String, tags: List<String>): Note
+    fun publishNote(userId: Long, title: String, description: String, type: String, price: Double, content: String, tags: List<String>): Note
 
     /**
      * 更新笔记
@@ -88,6 +89,13 @@ interface NoteService {
      * @param noteId 笔记ID
      * */
     fun reject(noteId: Long)
+
+    /**
+     * 重审笔记
+     *
+     * @param noteId 笔记ID
+     * */
+    fun reaudit(noteId: Long)
 
     /**
      * 是否点赞笔记
@@ -189,10 +197,17 @@ interface NoteService {
     fun getComments(noteId: Long): List<Comment>
 
     /**
+     * 是否已购买笔记
+     *
+     * @param noteId 笔记ID
+     */
+    fun isPurchased(userId: Long, noteId: Long): Boolean
+
+    /**
      * 购买笔记
      *
      * @param noteId 笔记ID
      */
-    fun purchase(userId: Long, noteId: Long)
+    fun purchase(userId: Long, noteId: Long): Order
 
 }

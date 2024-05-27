@@ -37,18 +37,18 @@ class DefaultAuthService : AuthService {
     }
 
     override fun verifyCode(email: String, code: String) {
-        val (verifyCode, expireTime) = cache[email] ?: throw IllegalArgumentException("Invalid verify code.")
+        val (verifyCode, expireTime) = cache[email] ?: throw IllegalArgumentException("验证码失效")
         when {
             System.currentTimeMillis() > expireTime -> {
                 // Code is expired.
                 cache.remove(email)
-                throw IllegalArgumentException("Invalid verify code.")
+                throw IllegalArgumentException("验证码失效")
             }
             verifyCode == code -> {
                 cache.remove(email)
             }
             else -> {
-                throw IllegalArgumentException("Invalid verify code.")
+                throw IllegalArgumentException("验证码错误")
             }
         }
     }
@@ -56,21 +56,30 @@ class DefaultAuthService : AuthService {
     override fun register(email: String, password: String, code: String): SaTokenInfo {
         verifyCode(email, code)
         userService.register(email, password)
-        return login(email, password)
+        return login(email, password, code)
     }
 
-    override fun login(email: String, password: String): SaTokenInfo {
+    override fun login(email: String, password: String, code: String): SaTokenInfo {
         if (isLogin()) {
-            throw IllegalStateException("User \"$email\" Already logged in.")
+            throw IllegalStateException("用户已登录")
         }
-        val profile = userService.matches(email, password) ?: throw IllegalArgumentException("Incorrect email or password.")
-        StpUtil.login(profile.id)
-        return StpUtil.getTokenInfo()
+        verifyCode(email, code)
+        if (userService.exists(email)) {
+            val user = userService.matches(email, password) ?: throw IllegalArgumentException("邮箱或密码不正确")
+            if (user.isBanned) {
+                throw IllegalStateException("用户已被封禁")
+            }
+            StpUtil.login(user.id)
+            return StpUtil.getTokenInfo()
+        }
+
+        // 注册
+        return register(email, password, code)
     }
 
     override fun logout() {
         if (!isLogin()) {
-            throw IllegalStateException("User not logged in.")
+            throw IllegalStateException("用户未登录")
         }
         StpUtil.logout()
     }

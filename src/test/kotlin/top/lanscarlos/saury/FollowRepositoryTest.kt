@@ -1,5 +1,6 @@
 package top.lanscarlos.saury
 
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
@@ -29,6 +30,16 @@ class FollowRepositoryTest {
         follow.follower = userRepository.getReferenceById(1)
         follow.following = userRepository.getReferenceById(2)
         repository.save(follow)
+    }
+
+    @Test
+    fun testInsert2() {
+        for (id in 7..13) {
+            val follow = DefaultFollow()
+            follow.follower = userRepository.getReferenceById(2)
+            follow.following = userRepository.getReferenceById(id.toLong())
+            repository.save(follow)
+        }
     }
 
 //    @Test

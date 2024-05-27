@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import top.lanscarlos.saury.core.entity.DefaultFollow
 import top.lanscarlos.saury.core.entity.DefaultUser
+import top.lanscarlos.saury.entity.Note
 import top.lanscarlos.saury.entity.Profile
 import top.lanscarlos.saury.entity.User
 import top.lanscarlos.saury.repository.FollowRepository
 import top.lanscarlos.saury.repository.ProfileRepository
+import top.lanscarlos.saury.repository.StarRepository
 import top.lanscarlos.saury.repository.UserRepository
 import top.lanscarlos.saury.service.ProfileService
 import java.lang.IllegalStateException
@@ -31,6 +33,9 @@ class DefaultProfileService : ProfileService {
 
     @Autowired
     private lateinit var followRepository: FollowRepository
+
+    @Autowired
+    private lateinit var starRepository: StarRepository
 
     override fun getById(userId: Long): Profile {
         return profileRepository.findById(userId).orElseThrow { IllegalStateException("User by id \"$userId\" not exists.") }
@@ -81,7 +86,7 @@ class DefaultProfileService : ProfileService {
     }
 
     override fun isFollowed(userId: Long, targetId: Long): Boolean {
-        return followRepository.findByFollowerIdAndFollowingId(userId, targetId) != null
+        return followRepository.existsByFollowerIdAndFollowingId(userId, targetId)
     }
 
 
@@ -102,6 +107,10 @@ class DefaultProfileService : ProfileService {
     @Transactional
     override fun unfollow(userId: Long, targetId: Long) {
         followRepository.deleteByFollowerIdAndFollowingId(userId, targetId)
+    }
+
+    override fun getStars(userId: Long): List<Note> {
+        return starRepository.findAllByUserId(userId).map { it.note }
     }
 
     fun getUserById(id: Long): DefaultUser {

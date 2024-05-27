@@ -51,13 +51,45 @@ class DefaultUserService : UserService {
         return userRepository.findByEmailAndPassword(email, password)
     }
 
-    override fun getById(id: Long): User {
+    override fun getById(id: Long): DefaultUser {
         return userRepository.findById(id)
             .orElseThrow { IllegalStateException("User by id \"$id\" not exists.") }
     }
 
     override fun getByEmail(email: String): User? {
         return userRepository.findByEmail(email)
+    }
+
+    override fun getUsers(): List<User> {
+        return userRepository.findAll()
+    }
+
+    @Transactional
+    override fun banUser(userId: Long) {
+        val user = getById(userId)
+        user.isBanned = true
+        userRepository.save(user)
+    }
+
+    @Transactional
+    override fun unbanUser(userId: Long) {
+        val user = getById(userId)
+        user.isBanned = false
+        userRepository.save(user)
+    }
+
+    @Transactional
+    override fun promoteUser(userId: Long) {
+        val user = getById(userId)
+        user.isAdmin = true
+        userRepository.save(user)
+    }
+
+    @Transactional
+    override fun unpromoteUser(userId: Long) {
+        val user = getById(userId)
+        user.isAdmin = false
+        userRepository.save(user)
     }
 
 }

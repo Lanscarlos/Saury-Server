@@ -1,5 +1,6 @@
 package top.lanscarlos.saury.service
 
+import top.lanscarlos.saury.entity.Note
 import top.lanscarlos.saury.entity.Profile
 import top.lanscarlos.saury.entity.User
 
@@ -70,5 +71,10 @@ interface ProfileService {
      * @param targetId 目标用户 id
      */
     fun unfollow(userId: Long, targetId: Long)
+
+    /**
+     * 获取收藏笔记
+     * */
+    fun getStars(userId: Long): List<Note>
 
 }

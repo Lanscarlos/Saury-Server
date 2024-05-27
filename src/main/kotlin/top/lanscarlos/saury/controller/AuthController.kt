@@ -32,8 +32,9 @@ interface AuthController {
      *
      * @param email 邮箱
      * @param password 密码
+     * @param code 验证码
      * */
-    fun login(email: String, password: String): SaResult
+    fun login(email: String, password: String, code: String): SaResult
 
     /**
      * 登出

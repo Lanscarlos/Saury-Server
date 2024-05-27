@@ -11,7 +11,7 @@ import cn.dev33.satoken.util.SaResult
  */
 interface NoteController {
 
-    fun getNotes(noteId: Long): SaResult
+    fun getNotes(): SaResult
 
     fun getNote(noteId: Long): SaResult
 
@@ -19,15 +19,17 @@ interface NoteController {
 
     fun searchByKeyword(keyword: String): SaResult
 
-    fun publishNote(title: String, description: String, type: String, content: String, tags: String): SaResult
+    fun publishNote(title: String, description: String, type: String, price: Double, content: String, tags: String): SaResult
 
     fun updateNote(noteId: Long, title: String? = null, description: String? = null, content: String? = null, tags: String? = null): SaResult
 
     fun deleteNote(noteId: Long): SaResult
 
     fun approve(noteId: Long): SaResult
+
     fun reject(noteId: Long): SaResult
 
+    fun reauditNote(noteId: Long): SaResult
 
     fun isLike(noteId: Long): SaResult
 
@@ -53,6 +55,8 @@ interface NoteController {
 
     fun countComments(noteId: Long): SaResult
 
-    fun purchaseNote(noteId: Long): SaResult
+    fun isPurchased(noteId: Long): SaResult
+
+    fun purchase(noteId: Long): SaResult
 
 }

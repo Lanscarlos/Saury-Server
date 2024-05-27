@@ -48,7 +48,7 @@ interface AuthService {
      *
      * @return token 信息
      */
-    fun login(email: String, password: String): SaTokenInfo
+    fun login(email: String, password: String, code: String): SaTokenInfo
 
     /**
      * 退出登录

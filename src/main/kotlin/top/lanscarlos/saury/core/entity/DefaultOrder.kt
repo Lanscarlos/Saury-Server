@@ -28,10 +28,10 @@ class DefaultOrder : Order {
 
     override var amount: Double = 1.0
 
+    override var noteId: Long = 0
+
     override var status: Boolean = false
 
     override var createTime: Long = System.currentTimeMillis()
-
-    override var noteId: Long = 0
 
 }

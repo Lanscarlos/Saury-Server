@@ -43,9 +43,9 @@ class DefaultAuthController : AuthController {
     }
 
     @RequestMapping("/login")
-    override fun login(email: String, password: String): SaResult {
+    override fun login(email: String, password: String, code: String): SaResult {
         return try {
-            SaResult.data(authService.login(email, password))
+            SaResult.data(authService.login(email, password, code))
         } catch (ex: Exception) {
             SaResult.error(ex.localizedMessage)
         }

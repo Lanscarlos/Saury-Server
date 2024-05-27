@@ -36,6 +36,11 @@ interface ProfileController {
     fun updateProfile(username: String, signature: String, avatar: String, gender: Int, birthday: Long): SaResult
 
     /**
+     * 是否关注某人
+     * */
+    fun isFollowed(targetId: Long): SaResult
+
+    /**
      * 获取关注列表
      */
     fun getFollowings(): SaResult
@@ -68,5 +73,10 @@ interface ProfileController {
      * @param targetId 目标用户id
      */
     fun unfollow(targetId: Long): SaResult
+
+    /**
+     * 获取收藏列表
+     * */
+    fun stars(): SaResult
 
 }

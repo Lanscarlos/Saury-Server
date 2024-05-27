@@ -15,7 +15,7 @@ interface FollowRepository : JpaRepository<DefaultFollow, Long> {
     /**
      * 判断是否已关注
      * */
-    fun findByFollowerIdAndFollowingId(followerId: Long, followingId: Long): DefaultFollow?
+    fun existsByFollowerIdAndFollowingId(followerId: Long, followingId: Long): Boolean
 
     /**
      * 获取关注列表
